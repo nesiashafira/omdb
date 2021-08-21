@@ -1,0 +1,25 @@
+.logo-container {
+  width: 100%;
+  display: flex;
+  margin-bottom: 50px;
+}
+
+.logo-img {
+  width: 90px;
+  height: auto;
+}
+
+h1 {
+  margin-bottom: 20px;
+}
+
+p {
+  margin: 0;
+}
+
+.movie-list {
+  margin: 50px 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}

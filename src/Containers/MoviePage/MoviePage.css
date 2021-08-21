@@ -1,0 +1,27 @@
+.back-btn {
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.back-icon {
+  margin-right: 15px;
+  width: auto;
+  height: 20px;
+}
+
+.back-txt {
+  font-size: 20px;
+  color: white;
+  text-decoration: none;
+}
+
+.detail {
+  width: 80%;
+}
+
+.detail-poster {
+  width: auto;
+  height: 100%;
+  margin: 0px;
+}

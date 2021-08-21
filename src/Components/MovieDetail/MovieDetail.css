@@ -1,0 +1,28 @@
+.detail-container {
+  width: 100%;
+  margin-left: 25px;
+  text-align: start;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.detail-container h1 {
+  margin: 0 0 15px 0;
+}
+
+.detail-container h3,
+.detail-container img,
+.detail-container p {
+  margin: 20px 10px 0 0;
+}
+
+.circle {
+  margin: 20px 20px 0 10px;
+  width: 7px;
+  height: 7px;
+  background-color: lightgray;
+  border-radius: 100%;
+}

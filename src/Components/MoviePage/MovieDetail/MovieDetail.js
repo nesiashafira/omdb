@@ -1,6 +1,6 @@
 import React from "react";
 import "./MovieDetail.css";
-import Rate from "../../Assets/rate.png";
+import Rate from "../../../Assets/rate.png";
 
 const MovieDetail = (props) => {
   const {
@@ -19,8 +19,8 @@ const MovieDetail = (props) => {
   } = props;
 
   return (
-    <div className="detail-container">
-      <h1>{title} </h1>
+    <div className="detail-container" data-cy="detail-container">
+      <h1 data-cy="detail-title">{title} </h1>
 
       <div className="flex">
         <h3>{year} </h3>

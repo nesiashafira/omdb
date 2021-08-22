@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./MainPage.css";
 import Logo from "../../Assets/logo.png";
-import SearchBar from "../../Components/SearchBar/SearchBar";
-import MovieCard from "../../Components/MovieCard/MovieCard";
-import Popup from "../../Components/Popup/Popup";
+import SearchBar from "../../Components/MainPage/SearchBar/SearchBar";
+import MovieCard from "../../Components/MainPage/MovieCard/MovieCard";
+import Popup from "../../Components/MainPage/Popup/Popup";
 
 const MainPage = () => {
   const [datas, setDatas] = useState([]);
+  const [pagination, setPagination] = useState(1);
+  const [title, setTitle] = useState("");
   const [popupShow, setPopupShow] = useState(false);
   const [popupImg, setpopupImg] = useState();
-
   const wording = {
     title: "Welcome to OMDb",
     desc: [
@@ -19,21 +20,29 @@ const MainPage = () => {
     ],
   };
 
-  const getTitle = async (string, page) => {
+  const getTitle = async () => {
     const { data } = await axios.get(
-      `http://www.omdbapi.com?apikey=c83422fb&s=${string}&page=${page}`
+      `http://www.omdbapi.com?apikey=c83422fb&s=${title}&page=${pagination}`
     );
-    // await setDatas((prevState) => {
-    //   return prevState.length > 0 ? [...prevState, data] : [data];
-    // });
 
-    setDatas(data.Search);
+    if (data.Search) {
+      setDatas([...datas, ...data.Search]);
+    }
   };
 
   const onChangeHandler = (event) => {
+    setDatas([]);
+    setPagination(1);
     const value = event.target.value;
-    getTitle(value, 1);
-    console.log(value);
+    setTitle(value);
+  };
+
+  const searchOnEnter = (event) => {
+    if (event.keyCode === 13) getTitle(title, pagination);
+  };
+
+  const searchOnClick = () => {
+    getTitle(title, pagination);
   };
 
   const posterPopupHandler = (img) => {
@@ -42,20 +51,20 @@ const MainPage = () => {
   };
 
   useEffect(() => {
-    window.onscroll = () => {
+    const container = document.getElementsByClassName("movie-list")[0];
+
+    container.onscroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
+        container.scrollTop + container.clientHeight >=
+        container.scrollHeight
       ) {
-        getTitle("batman", 2);
+        const newPage = pagination + 1;
+        getTitle();
+        setPagination(newPage);
       }
     };
     // eslint-disable-next-line
-  }, []);
-
-  console.log(datas);
-
-  console.log(popupShow);
+  }, [pagination]);
 
   return (
     <div className="container">
@@ -67,10 +76,14 @@ const MainPage = () => {
         <p key={index}>{desc} </p>
       ))}
       <div>
-        <SearchBar onChanged={(event) => onChangeHandler(event)}></SearchBar>
+        <SearchBar
+          onChanged={(event) => onChangeHandler(event)}
+          onKeyUp={(event) => searchOnEnter(event)}
+          onClicked={() => searchOnClick()}
+        ></SearchBar>
       </div>
 
-      <div className="movie-list">
+      <div className="movie-list" data-cy="movie-list">
         {datas &&
           datas.map((movie, index) => (
             <MovieCard
